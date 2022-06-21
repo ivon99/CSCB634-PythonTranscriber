@@ -2,6 +2,7 @@
 Project developed by students at New Bulgarian University for a text-to-speech transcriber using Mozilla Deepspeech.
 
 ## Setup
+The project does not run directly on Windows or WSL. To run on a Windows machine, please set up a virtual machine with a Linux guest.
 
 ### Setup virtual environment
 
@@ -19,9 +20,8 @@ Deactivate when done.
 
 ### Install pyaudio
 
-On Ubuntu(maybe will work on windows with WSL, but not sure):
-
 `sudo apt-get install python3-pyaudio`
+
 
 ### Install requirements
 
