@@ -32,3 +32,25 @@ Ensure the virtual environment is activated
 Then install the dependencies.
 
 `pip install -r requirements_dev.txt`
+
+## Run
+
+To run the project, firstly ensure the virtual environment is activated
+
+`source venv/bin/activate`
+
+Then download the model:
+
+`curl -LO https://github.com/mozilla/DeepSpeech/releases/download/v0.6.0/deepspeech-0.6.0-models.tar.gz`
+
+Extract it:
+
+`tar -xvzf deepspeech-0.6.0-models.tar.gz`
+
+Rename the directory:
+
+`mv deepspeech-0.6.0-models models`
+
+Run the project:
+
+`python3 main.py`
