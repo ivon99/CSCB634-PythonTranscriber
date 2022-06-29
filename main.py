@@ -40,6 +40,6 @@ text = transcriber.finish_stream()
 print('Final text = {}'.format(text))
 
 # Save text transcription to file 
-PATH_TRANSCRIPTIONS = 'transcription_results'
+PATH_TRANSCRIPTIONS = 'repository'
 filewrite = FileWriter(text,PATH_TRANSCRIPTIONS)
 filewrite.save_text_to_file()
