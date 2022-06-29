@@ -1,11 +1,14 @@
 from transcriber import *
+from audiostreamer import *
+from filewriter import *
 
 import os
 import pyaudio
 import time
 from transcriber.transcriber import Transcriber
-
 from transcriber.transcriber_config import TranscriberConfig
+from audiostreamer.audiostreamer import AudioStreamer
+from filewriter.filewriter import FileWriter
 
 # DeepSpeech parameters
 DEEPSPEECH_MODEL_DIR = 'models'
@@ -23,41 +26,20 @@ transcriber = Transcriber(cfg)
 # Create a Streaming session
 transcriber.create_stream()
 
-# Encapsulate DeepSpeech audio feeding into a callback for PyAudio
-def process_audio(in_data, frame_count, time_info, status):
-    transcriber.transcribe(in_data)
-    transcriber.debug()
-    return (in_data, pyaudio.paContinue)
-
 # PyAudio parameters
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
+INPUT = True
 CHUNK_SIZE = 1024
 
-# Feed audio to deepspeech in a callback to PyAudio
-audio = pyaudio.PyAudio()
-stream = audio.open(
-    format=FORMAT,
-    channels=CHANNELS,
-    rate=RATE,
-    input=True,
-    frames_per_buffer=CHUNK_SIZE,
-    stream_callback=process_audio
-)
+# Record audio and feed to transcriber
+audiostreamer= AudioStreamer(FORMAT, CHANNELS, RATE, INPUT, CHUNK_SIZE)
+audiostreamer.record_till_keyboard_interrupt(transcriber)
+text = transcriber.finish_stream()
+print('Final text = {}'.format(text))
 
-print('Please start speaking, when done press Ctrl-C ...')
-stream.start_stream()
-
-try: 
-    while stream.is_active():
-        time.sleep(0.1)
-except KeyboardInterrupt:
-    # PyAudio
-    stream.stop_stream()
-    stream.close()
-    audio.terminate()
-    print('Finished recording.')
-    # DeepSpeech
-    text = transcriber.finish_stream()
-    print('Final text = {}'.format(text))
+# Save text transcription to file 
+PATH_TRANSCRIPTIONS = 'transcription_results'
+filewrite = FileWriter(text,PATH_TRANSCRIPTIONS)
+filewrite.save_text_to_file()
