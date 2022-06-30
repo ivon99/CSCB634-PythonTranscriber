@@ -5,7 +5,7 @@ class FileWriter(object):
 		self.text= text_to_save
 		self.filepath= filepath
 	
-	def save_text_to_file(self) -> None:
+	def save_text_automatic_filename(self) -> None:
 		curr_time = datetime.now()
 		curr_time_str = curr_time.strftime("%H:%M:%S_%d-%m-%y")
 		filename= self.filepath +'/'+ curr_time_str
@@ -15,4 +15,16 @@ class FileWriter(object):
 			f.close()
 			print("Succesfully saved transcription in file", filename)
 		except:
-			print("Error in trying to save file!")
+			print("Error in trying to write to file",filename)
+	
+	def save_text_inputted_filename(self, in_filename):
+		filename= self.filepath+ '/' + in_filename
+		try:
+			f = open(filename,'a')
+			f.write(" ")
+			f.write(self.text)
+			f.close()
+			print("Succesfully apended transcription to file", filename)
+		except:
+			print("Error in trying to write to file", filename)
+			

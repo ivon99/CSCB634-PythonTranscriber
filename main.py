@@ -42,4 +42,8 @@ print('Final text = {}'.format(text))
 # Save text transcription to file 
 PATH_TRANSCRIPTIONS = 'repository'
 filewrite = FileWriter(text,PATH_TRANSCRIPTIONS)
-filewrite.save_text_to_file()
+in_filename= input("Enter filename of text note to write transcript to:")
+if(in_filename):
+	filewrite.save_text_inputted_filename(in_filename)
+else:
+	filewrite.save_text_automatic_filename()
