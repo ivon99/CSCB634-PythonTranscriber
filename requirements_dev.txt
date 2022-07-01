@@ -3,3 +3,4 @@ wheel==0.37.1
 deepspeech==0.6.0
 pyaudio==0.2.11
 numpy==1.23.0
+colorama==0.4.5
