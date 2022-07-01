@@ -3,7 +3,8 @@ from enum import Enum
 
 class ResultCode(Enum):
     OK = 0
-    UNKNOWN_ERROR = 1
+    BAD_COMMAND=1
+    UNKNOWN_ERROR = 2
 
 class Result(object):
     def __init__(self, result_code: ResultCode, message: str) -> None:

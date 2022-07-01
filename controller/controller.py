@@ -37,6 +37,11 @@ class Controller(object):
         self.audio_streamer= AudioStreamer(FORMAT, CHANNELS, RATE, INPUT, CHUNK_SIZE)
 
     def record_to_file(self, command: RecordToFileCommand) -> Result:
+        if command == None:
+            return Result(ResultCode.BAD_COMMAND, 'Missing command')
+        elif command != None and not command.generate and command.filename == None:
+            return Result(ResultCode.BAD_COMMAND, 'Missing filename')
+
         try:
             self.transcriber.create_stream()
             self.audio_streamer.record(self.transcriber)
@@ -48,7 +53,7 @@ class Controller(object):
             text = self.transcriber.finish_stream()
 
             file_writer = FileWriter(text, FILES_DIR)
-            if command != None and command.filename != None:
+            if command.generate:
                 filename = file_writer.save_text_automatic_filename()
             else:
                 filename = command.filename
