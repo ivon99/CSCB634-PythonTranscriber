@@ -3,6 +3,7 @@ import time
 
 import pyaudio
 from audiostreamer.audiostreamer import AudioStreamer
+from controller.commands import RecordToFileCommand
 from controller.result import Result, ResultCode
 from filewriter.filewriter import FileWriter
 
@@ -35,7 +36,7 @@ class Controller(object):
         self.transcriber = Transcriber(cfg)
         self.audio_streamer= AudioStreamer(FORMAT, CHANNELS, RATE, INPUT, CHUNK_SIZE)
 
-    def record_to_file(self) -> Result:
+    def record_to_file(self, command: RecordToFileCommand) -> Result:
         try:
             self.transcriber.create_stream()
             self.audio_streamer.record(self.transcriber)
@@ -47,7 +48,11 @@ class Controller(object):
             text = self.transcriber.finish_stream()
 
             file_writer = FileWriter(text, FILES_DIR)
-            filename = file_writer.save_text_to_file()
+            if command != None and command.filename != None:
+                filename = file_writer.save_text_automatic_filename()
+            else:
+                filename = command.filename
+                file_writer.save_text_inputted_filename(filename)
             
             return Result(ResultCode.OK, 'Successfully stored the text in file - {}'.format(filename))
         except Exception as e:
