@@ -1,8 +1,9 @@
+import os
+import sys
 import deepspeech
 import numpy as np
 
 from transcriber.transcriber_config import TranscriberConfig
-
 
 class Transcriber(object):
     def __init__(self, config: TranscriberConfig) -> None:
