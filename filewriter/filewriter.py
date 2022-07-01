@@ -7,7 +7,7 @@ class FileWriter(object):
 	
 	def save_text_automatic_filename(self) -> None:
 		curr_time = datetime.now()
-		curr_time_str = curr_time.strftime("%H:%M:%S_%d-%m-%y")
+		curr_time_str = curr_time.strftime("%y-%m-%d_%H:%M:%S")
 		filename= self.filepath +'/'+ curr_time_str
 		try:
 			f = open(filename, 'w')
