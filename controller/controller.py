@@ -59,7 +59,7 @@ class Controller(object):
                 filename = command.filename
                 file_writer.save_text_inputted_filename(filename)
             
-            return Result(ResultCode.OK, 'Successfully stored the text in file - {}'.format(filename))
+            return Result(ResultCode.OK, 'Successfully recorded the audio into text file - {}'.format(filename))
         except Exception as e:
             text = 'Unknown exception - {}'.format(str(e))
             return Result(ResultCode.UNKNOWN_ERROR, text)
