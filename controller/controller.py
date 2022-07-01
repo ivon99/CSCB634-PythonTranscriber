@@ -63,5 +63,3 @@ class Controller(object):
         except Exception as e:
             text = 'Unknown exception - {}'.format(str(e))
             return Result(ResultCode.UNKNOWN_ERROR, text)
-
-    

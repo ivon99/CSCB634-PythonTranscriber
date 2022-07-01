@@ -26,4 +26,3 @@ class Cli(object):
         else:
             print('Unrecognized response. Assuming you don\'t want to continue')
             return False
-
