@@ -1,3 +1,5 @@
+""" Controller is a module encapsulating the main functionality of the program.
+"""
 import os
 import time
 
@@ -27,16 +29,22 @@ RATE = 16000
 INPUT = True
 CHUNK_SIZE = 1024
 
-# Save text to file 
+# Save text to file
 FILES_DIR = 'notes'
 
 class Controller(object):
+    """ Controller is a class responsible for orchestrating the main functionality of the program.
+    """
     def __init__(self):
+        """ Initialize the Controller object and his internal state. It also initialize the transcriber and audio streamer.
+        """
         cfg = TranscriberConfig(MODEL_FILE_PATH, BEAM_WIDTH, LM_FILE_PATH, TRIE_FILE_PATH, LM_ALPHA, LM_BETA)
         self.transcriber = Transcriber(cfg)
         self.audio_streamer= AudioStreamer(FORMAT, CHANNELS, RATE, INPUT, CHUNK_SIZE)
 
     def record_to_file(self, command: RecordToFileCommand) -> Result:
+        """Records an audio input, then convert it to text and store it into a file. Return Result object with information if the recording is successfull or not.
+        """
         if command == None:
             return Result(ResultCode.BAD_COMMAND, 'Missing command')
         elif command != None and not command.generate and command.filename == None:
@@ -58,7 +66,7 @@ class Controller(object):
             else:
                 filename = command.filename
                 file_writer.save_text_inputted_filename(filename)
-            
+
             return Result(ResultCode.OK, 'Successfully recorded the audio into text file - {}'.format(filename))
         except Exception as e:
             text = 'Unknown exception - {}'.format(str(e))
